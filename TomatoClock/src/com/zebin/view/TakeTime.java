@@ -27,13 +27,6 @@ public class TakeTime {
         //每一秒执行的动作
         Runnable beeper = new Runnable() {
             public void run() {
-//                while(isPause){
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
                 workTime--;
                 int m = workTime /60;
                 int s = workTime %60;
@@ -46,13 +39,6 @@ public class TakeTime {
         //执行了25min后关闭
         scheduler.schedule(new Runnable() {
             public void run() {
-//                while(isPause){
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
                 SimpleFrame.field.setText("finish!");
                 beeperHandle.cancel(true);
 
@@ -103,7 +89,9 @@ public class TakeTime {
     public void playMusic(){
         // 创建音乐文件输入流对象
         try {
-            InputStream in = new FileInputStream("musics/5506.wav");
+//            获取当前的路径
+//            System.out.println(this.getClass().getResource(""));
+            InputStream in = new FileInputStream("D:\\appdata\\Java\\JavaWeb\\TomatoClock\\out\\artifacts\\Tomato_Clock_jar\\5506.wav");
             // 创建音频流对象
             final AudioStream  audioStream = new AudioStream(in);
             new Thread(new Runnable() {
@@ -113,22 +101,10 @@ public class TakeTime {
                     AudioPlayer.player.start(audioStream);
                 }
             }).start();
-            Thread.sleep(3000);
             // 停止声音播放
             AudioPlayer.player.stop(audioStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-//    @Override
-//    public void run(){
-//        try {
-//            while(isPause) {
-//                Thread.sleep(2000);
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

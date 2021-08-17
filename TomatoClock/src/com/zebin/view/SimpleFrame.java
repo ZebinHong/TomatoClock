@@ -1,6 +1,9 @@
 package com.zebin.view;
 
 
+import com.zebin.dao.BaseDao;
+import com.zebin.utils.JdbcUtils;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -31,7 +34,7 @@ public class SimpleFrame extends JFrame {
         //setSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         setTitle("番茄时钟");
         //设置图标
-        Image image = new ImageIcon("img/2.jpeg").getImage();
+        Image image = new ImageIcon("D:\\appdata\\Java\\JavaWeb\\TomatoClock\\out\\artifacts\\Tomato_Clock_jar\\2.jpeg").getImage();
         setIconImage(image);
         //添加字符串组件
         jpanel.add(new StringComponent(), BorderLayout.NORTH);
@@ -72,10 +75,6 @@ public class SimpleFrame extends JFrame {
         //设置字体大小
         Font font = new Font("SansSerif", Font.BOLD, 30);
         SimpleFrame.field.setFont(font);
-        //设置文本框内容颜色
-//        field.setForeground(Color.red);
-        //设置是否可编辑
-//        field.setEditable(false);
         //设置文本框内容排布方式
         field.setHorizontalAlignment(JTextField.CENTER);
         jpanel2.add(field);
@@ -119,7 +118,8 @@ public class SimpleFrame extends JFrame {
             //休息
             time.resting();
         });
-
+        //验证是否连接
+        BaseDao.isConnection();
     }
 
     //改变面板背景色

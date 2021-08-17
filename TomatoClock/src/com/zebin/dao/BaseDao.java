@@ -6,6 +6,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
+import javax.swing.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Connection;
@@ -20,6 +21,20 @@ public abstract class BaseDao {
     private QueryRunner qr = new QueryRunner();
     public BaseDao(){
     }
+
+    /**
+     * 验证数据库是否连接
+     */
+    public static void isConnection(){
+        Connection con=null;
+        try {
+            con = JdbcUtils.getConnection();
+        } catch (SQLException throwables) {
+            JOptionPane.showMessageDialog(null, "数据库连接失败", "出错",JOptionPane.ERROR_MESSAGE);
+
+        }
+    }
+
     /**
      * 增删改操作
      * @param sql
@@ -33,7 +48,13 @@ public abstract class BaseDao {
             con = JdbcUtils.getConnection();
             update = qr.update(con, sql, args);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            JOptionPane.showMessageDialog(null, "数据库连接失败", "出错",JOptionPane.ERROR_MESSAGE);
+        }finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return update;
     }
@@ -53,6 +74,12 @@ public abstract class BaseDao {
             return query;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return null;
     }
@@ -69,8 +96,14 @@ public abstract class BaseDao {
             con = JdbcUtils.getConnection();
             querys = qr.query(con, sql, new BeanListHandler<T>(type), args);
             return querys;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("链接数据库出错");
+        }finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return null;
     }
@@ -90,6 +123,12 @@ public abstract class BaseDao {
             return query;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
         return null;
     }
